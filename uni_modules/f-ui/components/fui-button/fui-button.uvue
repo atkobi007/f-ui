@@ -1,0 +1,102 @@
+<template>
+	<view class="fui-button" :class="buttonBackgroundCls" @touchstart="onTouchStart" @touchcancel="onTouchEnd"
+		@touchend="onTouchEnd">
+		<slot name="icon" v-if="buttonState!=1"></slot>
+		<slot name="down_icon" v-if="buttonState==1">
+			<!-- 如果未设置,按下使用默认icon -->
+			<slot name="icon"></slot>
+		</slot>
+		<text class="button-text">{{text}}</text>
+	</view>
+</template>
+
+<script setup>
+	/**
+	 * 按钮状态 0:默认 1:按下  2:禁用
+	 */
+	export type ButtonTouchType = 0 | 1 | 2;
+
+	/**
+	 * 
+	 */
+	const props = defineProps({
+		downAnimation: {
+			type: Boolean,
+			default: false
+		},
+		disable: {
+			type: Boolean,
+			default: false
+		},
+		text: {
+			type: String,
+			default: "BUTTON"
+		}
+	})
+
+	const buttonState = ref<ButtonTouchType>(0)
+
+	onMounted(() => {
+		console.error("onMounted");
+		if (props.disable) {
+			buttonState.value = 2;
+		}
+	})
+
+	const onTouchStart = () => {
+		console.error("onTouchStart");
+		if (props.disable || !props.downAnimation) return;
+		buttonState.value = 1
+	}
+	const onTouchEnd = () => {
+		console.error("onTouchEnd");
+		if (props.disable || !props.downAnimation) return;
+		buttonState.value = 0
+	}
+
+	const buttonBackgroundCls = computed(() => {
+		let state = buttonState.value
+		if (state < 0 || state > 2) {
+			state = 0;
+		}
+		return [`fui-button-${state}`]
+	});
+	const buttonTextColorCls = computed(() => {
+		if (!props.disable) return ['button-text']
+		return ['button-text-disable']
+	})
+</script>
+
+<style lang="scss" scoped>
+	.fui-button {
+		border-radius: 6rpx;
+		padding: 20rpx 30rpx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		margin: 0px auto;
+	}
+
+	.button-text {
+		color: #FFF;
+		margin-left: 10rpx;
+	}
+
+	.button-text-disable {
+		color: #ccc;
+		margin-left: 10rpx;
+	}
+
+	.fui-button-0 {
+		background: gray;
+	}
+
+	.fui-button-1 {
+		background: #ccc;
+	}
+
+	.fui-button-2 {
+		background: #EEE;
+	}
+</style>
