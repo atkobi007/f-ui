@@ -9,9 +9,6 @@
 				<template #icon>
 					<image src="/static/logo.png" style="width:50rpx;height:50rpx;"></image>
 				</template>
-				<template #down_icon>
-					<image src="/static/logo.png" style="width:60rpx;height:60rpx;"></image>
-				</template>
 			</fui-button>
 		</view>
 	</view>
