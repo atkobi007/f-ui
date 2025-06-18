@@ -117,7 +117,7 @@
 	 **/
 	const getBackGroundColor = computed(() => {
 		const shape = props.shape;
-		let shapeValue : string = shape == "circle" ? "100rpx" : "6rpx"
+		let shapeValue = shape == "circle" ? "100rpx" : "6rpx";
 		const defaultColor = props.backGroundColor;
 		const downBgColor = props.downBackGroundColor;
 		let bgColor = props.disabled ? "#ccc" : buttonState.value == 1 ?
