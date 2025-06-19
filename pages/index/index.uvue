@@ -5,28 +5,25 @@
 			<text class="title">{{title}}</text>
 		</view>
 		<view>
-			<fui-button>
+			<fui-button @click="onClickButton" backGroundColor="green" textColor="#FFF">
 				<template #icon>
 					<image src="/static/logo.png" style="width:50rpx;height:50rpx;"></image>
 				</template>
 			</fui-button>
+			<fui-swiper></fui-swiper>
 		</view>
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				title: 'Hello'
-			}
-		},
-		onLoad() {
-
-		},
-		methods: {
-
-		}
+<script setup>
+	import {ref} from "vue";
+	const title=ref("测试")
+	const onClickButton = () => {
+		uni.showToast({
+			title: '标题',
+			duration: 2000
+		});
+		
 	}
 </script>
 
@@ -40,6 +37,6 @@
 	.title {
 		font-size: 18px;
 		color: #8f8f94;
-    text-align: center;
+		text-align: center;
 	}
 </style>

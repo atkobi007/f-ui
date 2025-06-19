@@ -18,7 +18,7 @@
 	 * 按钮状态 0:默认 1:按下  2:禁用
 	 */
 	export type ButtonTouchType = 0 | 1 | 2;
-
+	console.error("fui-button, uvue");
 	/**
 	 * 属性
 	 */

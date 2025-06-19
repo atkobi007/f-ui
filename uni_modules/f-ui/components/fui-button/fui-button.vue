@@ -5,7 +5,7 @@
 			<slot name="icon" v-if="iconPositon=='LEFT'"></slot>
 			<view class="button-text-container">
 				<slot name="icon" v-if="iconPositon=='TOP'"></slot>
-				<span :style="getTextColor">{{text}}</span>
+				<text :style="getTextColor">{{text}}</text>
 				<slot name="icon" v-if="iconPositon=='BOTTOM'"></slot>
 			</view>
 			<slot name="icon" v-if="iconPositon=='RIGHT'"></slot>
@@ -17,8 +17,7 @@
 	import {
 		ref,
 		onMounted,
-		computed,
-		defineProps
+		computed		
 	} from "vue";
 
 	const props = defineProps({
@@ -82,7 +81,7 @@
 	const buttonState = ref(0)
 
 	onMounted(() => {
-		buttonState.value = props.disabled ?? 0;
+		buttonState.value = props.disabled ? 2: 0;
 	})
 
 	const onTouchStart = () => {
@@ -103,9 +102,10 @@
 	 **/
 	const getTextColor = computed(() => {
 		const pos = props.iconPositon
+		const color = props.disabled ? "#666" : buttonState.value == 1 ?
+				props.downTextColor.length>0?props.downTextColor:props.textColor : props.textColor
 		return {
-			color: props.disabled ? "#666" : buttonState.value == 1 ?
-				props.downTextColor || props.textColor : props.textColor,
+			color: color,
 			"margin-left": pos == "LEFT" ? "8rpx" : "0px",
 			"margin-right": pos == "RIGHT" ? "8rpx" : "0px",
 			"margin-top": pos == "TOP" ? "8rpx" : "0px",
