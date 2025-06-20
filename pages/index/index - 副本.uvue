@@ -1,0 +1,123 @@
+<template>
+	<view class="index_root">
+		<z-paging-x ref="pagingX" :refresher-enabled="false" :refresher-only="true" :loading-more-enabled="false" :to-bottom-loading-more-enabled="false" class="pagingX" v-model="dataList" @query="queryList" :refresh-height="220">
+			<template #top>
+				<l-tabs v-model="value" :list="list" @change="tabChange" color="#000" :space-evenly="false" lineWidth="60rpx">
+					<template #left>
+						<view class="logo">
+							<image src="/static/logo.png" style="width:50rpx;height:50rpx;"></image>
+						</view>
+					</template>
+					<template #right>
+						<view class="logo">
+							<image src="/static/logo.png" style="width:50rpx;height:50rpx;"></image>
+						</view>
+					</template>
+				</l-tabs>
+			</template>
+			<!-- 自定义下拉刷新view -->
+			<template #refresher="{ refresherStatus }">				
+					<custom-refresher :status="refresherStatus" />
+			</template>
+			<list-item v-for="(item, index) in dataList" :key="index">
+				<view class="list-item">
+					<text class="list-item-title">{{item.title}}</text>
+					<text class="list-item-type">{{item.detail}}</text>
+				</view>
+			</list-item>
+		</z-paging-x>
+	</view>
+</template>
+
+<script lang="uts">
+	import { requestList, ListItem } from '@/http/request.uts'
+
+	export default {
+		data() {
+			return {
+				tabList: ['测试1', '测试2', '测试3', '测试4', '测试5', '测试6', '测试7'],
+				tabIndex: 0,
+				dataList: [] as ListItem[],
+				active: 0,
+				value: 0,
+				list: [
+					{
+						value: 1,
+						label: '选项1',
+					},
+					{
+						value: 2,
+						label: '选项2',
+					},
+					{
+						value: 3,
+						label: '选项3',
+					},
+					{
+						value: 4,
+						label: '选项4',
+					},
+					{
+						value: 5,
+						label: '选项5',
+					},
+					{
+						value: 6,
+						label: '选项6',
+					},
+					{
+						value: 7,
+						label: '选项7',
+					}
+				]
+			}
+		},
+		onLoad() {
+
+		},
+		methods: {
+			statusText(status:number=0): string {				
+				const statusTextArr = ['哎呀，用点力继续下拉！', '拉疼我啦，松手刷新~~', '正在努力刷新中...', '刷新成功啦~'];
+				return statusTextArr[status];
+			},
+			tabChange(index : number) {
+				this.tabIndex = index;
+				(this.$refs['pagingX'] as ZPagingXComponentPublicInstance).reload();
+			},
+			queryList(pageNo : number, pageSize : number) {
+				const params = {
+					pageNo: pageNo,
+					pageSize: pageSize,
+					type: this.tabIndex + 1
+				}
+				requestList(params).then((res : UTSJSONObject) => {
+					(this.$refs['pagingX'] as ZPagingXComponentPublicInstance).complete(res['data'] as any[]);
+				}).catch(() => {
+					(this.$refs['pagingX'] as ZPagingXComponentPublicInstance).completeByError();
+				})
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	.index_root {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.logo {
+		width: 50rpx;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+	}
+	.pagingX {
+		width: 100%;
+		/* #ifdef WEB */
+		height: 90vh;
+		/* #endif */
+		padding-top: var(--status-bar-height);
+	}
+</style>

@@ -390,12 +390,6 @@ by ZXLee
 			}
 			// 更新缓存的refresher高度
 			this.$nextTick(() => {
-				const zpxListRefresher=uni.getElementById("zpxListRefresher") as UniElement;
-				console.error("zpxListRefresher:::",zpxListRefresher)
-				zpxListRefresher.getBoundingClientRectAsync()!.then((rect : DOMRect) => {
-					this.refresherNodeHeight = rect.height;
-				})
-				
 				this.refresherNodeHeight = this.refreshHeight;
 				// const refresherEle = this.$refs["zpxListRefresher"] as any;
 				// if (refresherEle!=null) {
