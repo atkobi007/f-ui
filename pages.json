@@ -41,6 +41,28 @@
 				"navigationBarTitleText": "个人中心",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path" : "pages/search/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/history/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "历史记录"
+			}
+		},
+		{
+			"path" : "pages/navigation/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "导航"
+			}
 		}
 	],
 	"globalStyle": {

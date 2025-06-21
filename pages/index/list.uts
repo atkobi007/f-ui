@@ -1,40 +1,41 @@
-export type Item = {
-	title: string;
-	file: string;
-	subTitle: string;
+export type MenuList = {
+	list: Array<MenuItem>;
 }
-export type List = {
-	list: Array<Item>;
-}
+
+export type MenuItem = {
+	id:number//ID
+    title : string//标题
+	file: string//icon
+	subTitle:string//子标题
+	toUrl?:string,//跳转url
+	toType?:number,//跳转类型
+};
 
 export default {
 	list: [{
-		title: '普通模式演示',
-		file: 'common-demo',
+		id:1,
+		title: '上传视频',
+		file: '',
+		subTitle: '',		
+	},{
+		id:2,
+		title: '离线视频',
+		file: '',
 		subTitle: ''
 	},{
-		title: '自定义下拉刷新演示',
-		file: 'custom-demo',
+		id:3,
+		title: '发布动态',
+		file: '',
 		subTitle: ''
 	},{
-		title: '局部区域使用演示',
-		file: 'part-demo',
+		id:4,
+		title: '相册',
+		file: '',
 		subTitle: ''
 	},{
-		title: '滑动切换选项卡演示',
-		file: 'swiper-demo',
-		subTitle: ''
-	},{
-		title: '下拉刷新显示最后更新时间演示',
-		file: 'show-update-time-demo',
-		subTitle: ''
-	},{
-		title: '空数据&加载失败演示',
-		file: 'empty-demo',
-		subTitle: ''
-	},{
-		title: '滑动切换选项卡+吸顶演示',
-		file: 'sticky-swiper-demo',
+		id:5,
+		title: '扫一扫',
+		file: '',
 		subTitle: ''
 	}]
-} as List
+} as MenuList
