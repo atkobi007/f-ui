@@ -1,7 +1,7 @@
 <template>
 	<view class="index_root">
 		<view class="top_container">
-			<!-- #ifdef APP -->
+			<!-- #ifdef WEB -->
 			<!-- search_container 只APP显示 -->
 			<view class="search_container">
 				<view class="search_left">
@@ -48,8 +48,10 @@
 			</l-tabs>
 		</view>
 		<swiper class="swiper" :current="current" :disable-touch="true">
-			<swiper-item class="swiper-item" v-for="(_, index) in list" :key="index">
-				<swiper-list-item :tabIndex="index" :currentIndex="current"></swiper-list-item>
+			<swiper-item class="swiper-item" v-for="(_, ix) in list" :key="ix">
+				<!-- <swiper-list-item :tabIndex="ix" :currentIndex="current"></swiper-list-item> -->
+				<recommand :tabIndex="ix" :currentIndex="current" v-if="ix==0"></recommand>
+				<common :tabIndex="ix" :currentIndex="current" v-if="ix!=0"></common>
 			</swiper-item>
 		</swiper>
 		<!-- #ifdef WEB -->
@@ -73,6 +75,8 @@
 <script setup>
 	import {computed} from "vue"
 	import MenuList,{MenuItem} from "./list.uts"
+	import recommand from "./recommand/recommand.uvue"
+	import common from "./common/common.uvue"
 	
 	const list = [
 		{

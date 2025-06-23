@@ -1,0 +1,90 @@
+<!-- 小图片[热度+时间] / 标题 -->
+<!-- 
+  -----------
+ |          |
+ |          |
+ |          |
+ | 热    8集|
+ -----------
+ 标题标题标题
+ -->
+<template>
+	<view class="item_container">
+		<view class="item_content" v-if="!data.isEmpty">
+			<image :src="data.url" style="width:100%;height:100%;"></image>
+			<view class="item_info">
+				<view class="item_info_hot">
+					<image src="/static/logo.png" style="width:30rpx;height:30rpx;"></image>
+					<text class="item_info_hot_text">1024</text>
+				</view>
+				<text class="item_info_hot_text">00:00:46</text>
+			</view>
+		</view>
+		<text class="item_title" v-if="!data.isEmpty">{{data.title}}</text>
+	</view>
+</template>
+
+<script setup>
+	import { ListSubItem } from '../../http/request';
+	interface Props {
+	  data:{
+		  title: string
+		  url: string
+		  //点位,如果数组长度是单个的就点位一个空的位置(不显示出来)
+		  isEmpty:boolean
+	  }
+	}
+	const props = withDefaults(defineProps<Props>(), {
+	  data:{
+		  title:"",
+		  url:"",
+		  isEmpty:true,
+	  }
+	})
+	
+</script>
+
+<style scoped>
+ .item_container{
+	width: 46%;
+	height: 270rpx;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+ }
+ 
+ .item_content{
+	 position: relative;
+	 flex:1;
+ }
+ 
+ .item_info{
+	 padding: 6rpx 10rpx;
+	 position: absolute;
+	 bottom:0px;
+	 height:30rpx;
+	 width:100%;
+	 display: flex;
+	 flex-direction: row;
+	 justify-content: space-between;
+	 align-items: center;
+ }
+ .item_info_hot{
+	 display: flex;
+	 flex-direction: row;
+	 align-items: center;
+ }
+ .item_info_hot_text{
+	 font-size: 20rpx;
+ }
+ 
+ .item_title{
+	 overflow: hidden;
+	 text-overflow: ellipsis;
+	 white-space: nowrap;
+	 font-size: 26rpx;
+	 height:50rpx;
+	 padding-top:6rpx;
+ }
+ 
+</style>

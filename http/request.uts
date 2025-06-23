@@ -1,9 +1,15 @@
 let loadingTime = 500;
 const showLog = true;
 
+export type ListSubItem{
+	title : string
+	url: string
+	isEmpty:boolean
+}
 export type ListItem = {
     title : string
 	detail: string
+	subItems:Array<ListSubItem>
 };
 
 // type Request = {
@@ -41,7 +47,13 @@ function _queryList(data: UTSJSONObject, listCount: number): Promise<UTSJSONObje
 	for (let i = 0; i < listCount; i++) {
 		const item = {
 			'title': `标题${i + 1}`,
-			'detail': '测试信息' + type
+			'detail': '测试信息' + type,
+			subItems:[
+				{title:"二级标题1",url:"/static/logo.png",isEmpty:false},
+				{title:"二级标题2",url:"/static/logo.png",isEmpty:false},
+				{title:"二级标题3",url:"/static/logo.png",isEmpty:false},
+				{title:"二级标题4",url:"/static/logo.png",isEmpty:true}				
+			]
 		} as ListItem;
 		totalPagingList.push(item);
 	}
