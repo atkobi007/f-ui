@@ -4,7 +4,7 @@ const showLog = true;
 export type ListSubItem{
 	title : string
 	url: string
-	isEmpty:boolean
+	empty:number
 }
 export type ListItem = {
     title : string
@@ -49,10 +49,10 @@ function _queryList(data: UTSJSONObject, listCount: number): Promise<UTSJSONObje
 			'title': `标题${i + 1}`,
 			'detail': '测试信息' + type,
 			subItems:[
-				{title:"二级标题1",url:"/static/logo.png",isEmpty:false},
-				{title:"二级标题2",url:"/static/logo.png",isEmpty:false},
-				{title:"二级标题3",url:"/static/logo.png",isEmpty:false},
-				{title:"二级标题4",url:"/static/logo.png",isEmpty:true}				
+				{title:"二级标题1",url:"/static/202506210536193638482.jpg",empty:1},
+				{title:"二级标题2",url:"/static/202506210536193638482.jpg",empty:1},
+				{title:"二级标题3",url:"/static/202506210536193638482.jpg",empty:1},
+				{title:"二级标题4",url:"/static/202506210536193638482.jpg",empty:0}				
 			]
 		} as ListItem;
 		totalPagingList.push(item);

@@ -10,8 +10,8 @@
  -->
 <template>
 	<view class="item_container">
-		<view class="item_content" v-if="!data.isEmpty">
-			<image :src="data.url" style="width:100%;height:100%;"></image>
+		<view class="item_content" v-if="getnotEmpty">
+			<image :src="url" style="width:100%;height:100%;"></image>
 			<view class="item_info">
 				<view class="item_info_hot">
 					<text class="score_text">1024</text>
@@ -19,110 +19,110 @@
 						<image src="/static/logo.png" style="width:30rpx;height:30rpx;"></image>
 						<text class="item_info_hot_text">1024</text>
 					</view>
-					
+
 				</view>
 				<text class="item_info_hot_text">8集全</text>
 			</view>
 		</view>
 		<view class="title_container">
-			<text class="item_title" v-if="!data.isEmpty">{{data.title}}</text>
-			<text class="item_title_sub" v-if="!data.isEmpty">剧情</text>
+			<text class="item_title" v-if="getnotEmpty">{{title}}</text>
+			<text class="item_title_sub" v-if="getnotEmpty">剧情</text>
 		</view>
 	</view>
 </template>
 
 <script setup>
 	import { ListSubItem } from '../../http/request';
-	interface Props {
-	  data:{
-		  title: string
-		  url: string
-		  //点位,如果数组长度是单个的就点位一个空的位置(不显示出来)
-		  isEmpty:boolean
-	  }
-	}
-	const props = withDefaults(defineProps<Props>(), {
-	  data:{
-		  title:"",
-		  url:"",
-		  isEmpty:true,
-	  }
+	const props = defineProps({
+		title:String,
+		url:String,
+		empty:{
+			type:Number,
+			default:1
+		}
 	})
-	
+	const getEmpty=computed(()=>{
+		return props.empty==0;
+	})
+	const getnotEmpty=computed(()=>{
+		return props.empty==1;
+	})
 </script>
 
 <style scoped>
- .item_container{
-	width: 94%;
-	height: 360rpx;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	margin-bottom: 40rpx;
-	margin-left: 3%;
- }
- 
- .item_content{
-	 position: relative;
-	 flex:1;
- }
- 
- .item_info{
-	 padding: 16rpx 10rpx;
-	 position: absolute;
-	 bottom:0rpx;
-	 height:120rpx;
-	 width:100%;
-	 display: flex;
-	 flex-direction: row;
-	 justify-content: space-between;
-	 align-items: flex-end;
-	 background-image: linear-gradient(to top,rgba(0,0,0,0.6),rgba(0,0,0,0.01))
- }
- .item_info_hot{
-	 display: flex;
-	 flex-direction: column;
-	 align-items: flex-start;
- }
- 
- .item_info_hot1{
- 	 display: flex;
- 	 flex-direction: row;
- 	 align-items: center;
-	 margin-top: 10rpx;
- }
- 
- .item_info_hot_text{
-	 font-size: 20rpx;
- }
- 
- .score_text{
-	 font-size: 26rpx;
-	 color:#ff743d;
-	 font-weight: bold;
- }
- 
- .title_container{
-	 display: flex;
-	 flex-direction: row;
-	 align-items: center;
- }
- 
- .item_title{
-	 overflow: hidden;
-	 text-overflow: ellipsis;
-	 white-space: nowrap;
-	 font-size: 30rpx;
-	 height:50rpx;
-	 padding-top:10rpx;
-	 flex:1;
- }
- .item_title_sub{
- 	 overflow: hidden;
- 	 text-overflow: ellipsis;
- 	 white-space: nowrap;
- 	 font-size: 26rpx;
- 	 height:30rpx;
-	 color:#ccc;
- }
+	.item_container {
+		width: 94%;
+		height: 360rpx;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		margin-bottom: 40rpx;
+		margin-left: 3%;
+	}
+
+	.item_content {
+		position: relative;
+		flex: 1;
+	}
+
+	.item_info {
+		padding: 16rpx 10rpx;
+		position: absolute;
+		bottom: 0rpx;
+		height: 120rpx;
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: flex-end;
+		background-image: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.01))
+	}
+
+	.item_info_hot {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.item_info_hot1 {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin-top: 10rpx;
+	}
+
+	.item_info_hot_text {
+		font-size: 20rpx;
+	}
+
+	.score_text {
+		font-size: 26rpx;
+		color: #ff743d;
+		font-weight: bold;
+	}
+
+	.title_container {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.item_title {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: 30rpx;
+		height: 50rpx;
+		padding-top: 10rpx;
+		flex: 1;
+	}
+
+	.item_title_sub {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: 26rpx;
+		height: 30rpx;
+		color: #ccc;
+	}
 </style>

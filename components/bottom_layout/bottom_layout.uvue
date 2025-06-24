@@ -1,0 +1,64 @@
+<template>
+	<view class="bottom_root">
+		<view class="info" @click="onClickMore">
+			<image src="/static/logo.png" style="width:20rpx;height:20rpx;"></image>
+			<text class="left-text">更多</text>
+		</view>
+		<text v-if="bottomType==0" class="text"></text>
+		<view v-if="bottomType==0" class="info" @click="onClickSwitch">
+			<image src="/static/logo.png" style="width:20rpx;height:20rpx;"></image>
+			<text class="left-text">更多</text>
+		</view>
+	</view>
+</template>
+
+<script setup>
+	const emit=defineEmits(["more","changed"])
+	
+	defineProps({
+		bottomType:{
+			type:Number,
+			default:0
+		},
+		type:{
+			type:Number,
+			default:0
+		}
+	})
+	//点击更多
+	const onClickMore=()=>{
+		emit("more")
+	}
+	//点击换一换
+	const onClickSwitch=()=>{
+		emit("changed")
+	}
+	
+</script>
+
+<style lang="scss">
+.bottom_root{
+	height: 80rpx;
+	width:100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-evenly;
+	background: #eee;
+}
+.info{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.left-text{
+	font-size: 24rpx;
+	color:#999;
+	margin-left: 5rpx;
+}
+.text{
+	width:1rpx;
+	height:40%;
+	background:#AAA;
+}
+</style>

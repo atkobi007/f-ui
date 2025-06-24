@@ -1,7 +1,7 @@
 <template>
 	<view class="index_root">
 		<view class="top_container">
-			<!-- #ifdef WEB -->
+			<!-- #ifdef APP -->
 			<!-- search_container 只APP显示 -->
 			<view class="search_container">
 				<view class="search_left">

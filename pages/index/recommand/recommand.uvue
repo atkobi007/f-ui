@@ -12,10 +12,11 @@
 						<image src="/static/logo.png" style="width:20rpx;height:20rpx;"></image>
 					</template>
 				</title_layout>
-				<movie_item2 :data="item.subItems[0]"></movie_item2>
+				<movie_item2 :title="item.subItems[0].title" :url="item.subItems[0].url" :empty="item.subItems[0].empty"></movie_item2>
 				<view class="item-container">
-					<movie_item1 class="item" :data="subItem" v-for="(subItem,index) in item.subItems" :key="index"></movie_item1>
+					<movie_item1 class="item" :title="subItem.title" :url="subItem.url" :empty="subItem.empty" v-for="(subItem,index) in item.subItems" :key="index"></movie_item1>
 				</view>
+				<bottom_layout></bottom_layout>
 			</view>
 		</list-item>
 	</z-paging-x>

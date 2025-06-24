@@ -11,8 +11,8 @@
  -->
 <template>
 	<view class="item_container">
-		<view class="item_content" v-if="!data.isEmpty">
-			<image :src="data.url" style="width:100%;height:100%;"></image>
+		<view class="item_content" v-if="getnotEmpty">
+			<image :src="url" style="width:100%;height:100%;"></image>
 			<view class="item_info">
 				<view class="item_info_hot">
 					<image src="/static/logo.png" style="width:30rpx;height:30rpx;"></image>
@@ -21,27 +21,27 @@
 				<text class="item_info_hot_text">8集全</text>
 			</view>
 		</view>
-		<text class="item_title" v-if="!data.isEmpty">{{data.title}}</text>
-		<text class="item_title_sub" v-if="!data.isEmpty">剧情</text>
+		<text class="item_title" v-if="getnotEmpty">{{title}}</text>
+		<text class="item_title_sub" v-if="getnotEmpty">剧情</text>
 	</view>
 </template>
 
 <script setup>
 	import { ListSubItem } from '../../http/request';
-	interface Props {
-	  data:{
-		  title: string
-		  url: string
-		  //点位,如果数组长度是单个的就点位一个空的位置(不显示出来)
-		  isEmpty:boolean
-	  }
-	}
-	const props = withDefaults(defineProps<Props>(), {
-	  data:{
-		  title:"",
-		  url:"",
-		  isEmpty:true,
-	  }
+	const props = defineProps({
+		title:String,
+		url:String,
+		empty:{
+			type:Number,
+			default:1
+		}
+	})
+	
+	const getEmpty=computed(()=>{
+		return props.empty==0;
+	})
+	const getnotEmpty=computed(()=>{
+		return props.empty==1;
 	})
 	
 </script>
