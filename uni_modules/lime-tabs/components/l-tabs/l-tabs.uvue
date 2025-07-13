@@ -19,7 +19,7 @@
 					<view class="l-tabs__item" v-for="(item, index) in tabs" :key="index" :style="[itemStyle]" :class="{
 							'l-tabs__item--active': index == currentIndex,
 							'l-tabs__item--evenly': spaceEvenly, 
-							'l-tabs__item--disabled': item.disabled}" @click="onClick(index, item)">
+							'l-tabs__item--disabled': item.disabled}" @click="onClick(index, item)" @click.stop>
 						<slot name="label" :item="item" :active="index == currentIndex" :disabled="item.disabled">
 							<l-badge v-if="item.dot == true || item.badge != null" :dot="item.dot" :offset="item.offset"
 								:content="item.badge">
