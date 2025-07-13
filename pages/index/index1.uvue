@@ -1,0 +1,288 @@
+<template>
+	<view class="index_root">
+		<view class="top_container">
+			<!-- #ifdef APP -->
+			<!-- search_container 只APP显示 -->
+			<view class="search_container">
+				<view class="search_left">
+					<image src="/static/logo.png" style="width:40rpx;height:40rpx;"></image>
+				</view>
+				<view class="search_input" @click="onTouchSearch">
+					<view class="search_input_left">
+						<view class="search_input_left_icon"><image src="/static/logo.png" style="width:30rpx;height:30rpx;"></image></view>
+						<text class="search_input_left_text">搜一搜</text>
+					</view>
+					<view class="search_input_scan">
+						<image src="/static/logo.png" style="width:40rpx;height:40rpx;"></image>
+					</view>
+				</view>
+				<view class="search_right">
+					<image src="/static/logo.png" style="width:40rpx;height:40rpx;" @click="onTouchHistory"></image>
+					<image src="/static/logo.png" style="width:40rpx;height:40rpx;" @click="onTouchMenu"></image>
+				</view>
+			</view>
+			<!-- #endif -->
+			<l-tabs v-model="current" :list="list" @change="tabChange" color="#000" :space-evenly="false" lineWidth="60rpx">
+				<template #left>
+					<!-- #ifdef WEB -->
+					<view class="logo">
+						<image src="/static/logo.png" style="width:50rpx;height:50rpx;"></image>
+					</view>
+					<!-- #endif -->
+				</template>
+				<template #right>
+					<!-- #ifdef WEB -->
+					<view class="logo" @click="onTouchSearch">
+						<image src="/static/logo.png" style="width:50rpx;height:50rpx;"></image>
+					</view>
+					<view class="logo" @click="onTouchMenu">
+						<image src="/static/logo.png" style="width:50rpx;height:50rpx;"></image>
+					</view>
+					<!-- #endif -->
+					<!-- #ifndef WEB -->
+					<view class="logo" @click="onTouchNavigation">
+						<image src="/static/logo.png" style="width:50rpx;height:50rpx;"></image>
+					</view>
+					<!-- #endif -->
+				</template>
+			</l-tabs>
+		</view>
+		<swiper class="swiper" :current="current" :disable-touch="true">
+			<swiper-item class="swiper-item" v-for="(_, ix) in list" :key="ix">
+				<!-- <swiper-list-item :tabIndex="ix" :currentIndex="current"></swiper-list-item> -->
+				<recommand :tabIndex="ix" :currentIndex="current" v-if="ix==0"></recommand>
+				<common :tabIndex="ix" :currentIndex="current" v-if="ix!=0"></common>
+			</swiper-item>
+		</swiper>
+		<!-- #ifdef WEB -->
+		<view style="height:140rpx;"></view>
+		<!-- #endif -->
+		
+		<!-- //菜单 -->
+		<view class="menu_container" v-if="showMenu&&menuList.length>0" @click="onTouchMenu">
+			<view class="right_menu" >
+				<view class="menu_item" :class="{'menu_item_border':index<menuList.length-1}" 
+				v-for="(item,index) in menuList" @click="onTouchMenuItem(item)" @click.stop @tap.stop :key="item.id">
+					<image src="/static/logo.png" style="width:40rpx;height:40rpx;margin-right: 6rpx;"></image>
+					<text>{{item.title}}</text>
+				</view>
+			</view>
+		</view>
+		
+	</view>
+</template>
+
+<script setup>
+	import {computed} from "vue"
+	import MenuList,{MenuItem} from "./list.uts"
+	import recommand from "./recommand/recommand.uvue"
+	import common from "./common/common.uvue"
+	
+	const list = [
+		{
+			value: 1,
+			label: '选项1',
+		},
+		{
+			value: 2,
+			label: '选项2',
+		},
+		{
+			value: 3,
+			label: '选项3',
+		},
+		{
+			value: 4,
+			label: '选项4',
+		},
+		{
+			value: 5,
+			label: '选项5',
+		},
+		{
+			value: 6,
+			label: '选项6',
+		},
+		{
+			value: 7,
+			label: '选项7',
+		}
+	];
+	const showMenu=ref<boolean>(false);
+	const current = ref<number>(0);
+	
+	const tabChange=(index:number)=>{
+		current.value=index;
+	}
+	const menuList=ref<Array<MenuItem>>([])
+	// const infos:GetWindowInfoResult=uni.getWindowInfo();
+	// console.error(infos);
+	
+	onMounted(()=>{
+		menuList.value=MenuList.list
+	});
+	//点击菜单
+	const onTouchMenu=()=>{
+		showMenu.value=!showMenu.value;
+	}
+	//点击菜单ITEM
+	const onTouchMenuItem=(item:MenuItem)=>{
+		console.error(item)
+		onTouchMenu()
+	}
+	//跳转搜索页面
+	const onTouchSearch=()=>{
+		uni.navigateTo({
+			url:"/pages/search/index"
+		})
+	}
+	//跳转历史记录页面
+	const onTouchHistory=()=>{
+		uni.navigateTo({
+			url:"/pages/history/index"
+		})
+	}
+	//跳转导航页面
+	const onTouchNavigation=()=>{
+		uni.navigateTo({
+			url:"/pages/navigation/index"
+		})
+	}
+</script>
+
+<style lang="scss">
+	.index_root {
+		width: 100%;
+		/* #ifdef WEB */
+		height: 100vh;
+		/* #endif */
+		/* #ifndef WEB */
+		height: 100%;
+		/* #endif */
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		padding-top: var(--status-bar-height);
+		position: relative;
+	}
+	
+	.top_container{
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+	
+	.search_container{
+		width:100%;
+		height:80rpx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+	
+	.search_input{
+		flex:1;
+		display: flex;
+		flex-direction: row;
+		background: #EEE;
+		height:60rpx;
+		border-radius: 6rpx;
+		align-items: center;
+		justify-content: space-between;
+		padding-left: 10rpx;
+	}
+
+	.search_left{
+		width:100rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-evenly
+	}
+
+	.search_right{
+		width:180rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-evenly;
+	}
+	
+	.search_input_left{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		
+	}
+	.search_input_left_icon{
+		width:48rpx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+	.search_input_left_text{
+		font-size: 24rpx;
+		color:#AAA;
+	}
+	
+	.search_input_scan{
+		width:70rpx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		border-left: 1px solid #FFF;
+	}
+
+	.swiper {
+		flex: 1;
+	}
+
+	.swiper-item {
+		width: 100%;
+	}
+
+	.logo {
+		width: 80rpx;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.menu_container{
+		width:100%;
+		height:100%;
+		background: transparent;
+		position: absolute;
+		top:0px;
+		bottom:0px;
+		left:0px;
+		right:0px;
+		z-index:999;
+	}
+	.right_menu{
+		position: absolute;
+		top:80rpx;
+		margin-top: var(--status-bar-height);
+		display: flex;
+		flex-direction: column;
+		right:6rpx;
+		background: #EAEAEA;
+		// #f0f0f0
+		border-radius: 10rpx;
+		padding-left: 10rpx;
+		padding-right: 10rpx;
+		padding-bottom: 10rpx;
+	}
+	.menu_item{
+		height:80rpx;
+		width:200rpx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		padding-left: 20rpx;
+	}
+	.menu_item_border{
+		border-bottom: #FFF 1px solid;
+	}
+</style>

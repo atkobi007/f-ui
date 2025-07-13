@@ -1,0 +1,14 @@
+	<template>
+		<fui-icon type="qq"></fui-icon>
+	</template>
+
+	<script setup>
+	const tab = ref<number>(0)
+	</script>
+
+	<style lang="scss">
+		.content {
+			line-height: 120px;
+			text-align: center;
+		}
+	</style>

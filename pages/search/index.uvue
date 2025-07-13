@@ -1,0 +1,15 @@
+<template>
+	<view class="history_root">
+		Search
+	</view>
+</template>
+
+<script setup>
+		
+</script>
+
+<style scoped>
+	.history_root{
+		padding-top: var(--status-bar-height);
+	}
+</style>

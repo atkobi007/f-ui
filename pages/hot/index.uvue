@@ -1,0 +1,142 @@
+<template>
+	<view class="status-height"></view>
+	<view class="hot-root" @touchstart="onTouchStart" @touchmove="onTouchMove" >
+		<view class="img">
+			<image src="/static/202506210536193638482.jpg" style="width:100%;height:300rpx;" />
+		</view>
+		<view class="content" :style="contentCls">
+			<l-tabs v-model="current" :list="list" @change="tabChange" color="#000" :space-evenly="false" lineWidth="60rpx">
+			</l-tabs>
+			<view class="tab">
+				<view class="tab-item">周榜</view>
+				<view class="tab-item">月榜</view>
+				<view class="tab-item">年榜</view>
+			</view>
+			<view class="content-body content-disable">
+				<hotList></hotList>
+			</view>			
+		</view>
+	</view>
+</template>
+
+<script setup>
+	import {computed} from "vue"
+	import hotList from "./hot-list/hot-list.uvue";
+	
+	const list = [
+		{
+			value: 1,
+			label: '电影',
+		},
+		{
+			value: 2,
+			label: '电视剧',
+		},
+		{
+			value: 3,
+			label: '综艺',
+		},
+		{
+			value: 4,
+			label: '动漫',
+		}
+	];
+	const showMenu=ref<boolean>(false);
+	const current = ref<number>(0);
+	const startY=ref(0);
+	const currentApha=ref(1);
+	const offset=0.03;
+	
+	const delayTimer=100;
+	const startTimer=ref(0)
+	
+	const tabChange=(index:number)=>{
+		current.value=index;
+	}
+	
+	
+	const onTouchStart=(e:TouchEvent)=>{
+		if(e.changedTouches.length>1)return;
+		startY.value=e.changedTouches[0].clientY
+		startTimer.value=Date.now()
+	}
+	const onTouchMove=(e:TouchEvent)=>{		
+		if(e.changedTouches.length>1)return;
+		if(Date.now()-startTimer.value<delayTimer)return;
+		const moveY=e.changedTouches[0].clientY
+		let v=moveY
+		if(moveY<=startY.value){//往上滑动
+			if(currentApha.value<=0)return;
+			currentApha.value -= offset
+			if(currentApha.value<0){
+				currentApha.value=0;
+			}
+		}else{
+			if(currentApha.value>=1)return;
+			currentApha.value +=offset
+			if(currentApha.value>1){
+				currentApha.value=1;
+			}
+		}
+	}
+	
+	const contentCls=computed(()=>{
+		const top=currentApha.value*300;
+		return {
+			top:top+"rpx",
+		}
+	})
+</script>
+
+<style lang="scss">
+	.hot-root {
+		width: 100%;
+		/* #ifdef WEB */
+		height: 100vh;
+		/* #endif */
+		/* #ifndef WEB */
+		height: 100%;
+		/* #endif */
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;		
+		position: relative;
+	}
+	
+	.content{		
+		position: absolute;
+		z-index: 2;
+		background: #FFF;
+		width: 100%;
+		height:100%;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+	}
+	
+	.tab{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		height:100rpx;
+		justify-content: space-evenly;
+	}
+	.tab-item{
+		// width: 200rpx;
+	}
+	
+	.content-body{
+		flex:1;
+	}
+	.content-disable{
+		overflow: hidden;
+	}
+	.img{
+		width:100%;
+		height:300rpx;
+		position: absolute;
+		top:0px;
+		z-index: 1;
+	}
+	
+</style>

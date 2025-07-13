@@ -1,0 +1,41 @@
+export type MenuList = {
+	list: Array<MenuItem>;
+}
+
+export type MenuItem = {
+	id:number//ID
+    title : string//标题
+	file: string//icon
+	subTitle:string//子标题
+	toUrl?:string,//跳转url
+	toType?:number,//跳转类型
+};
+
+export default {
+	list: [{
+		id:1,
+		title: '上传视频',
+		file: '',
+		subTitle: '',		
+	},{
+		id:2,
+		title: '离线视频',
+		file: '',
+		subTitle: ''
+	},{
+		id:3,
+		title: '发布动态',
+		file: '',
+		subTitle: ''
+	},{
+		id:4,
+		title: '相册',
+		file: '',
+		subTitle: ''
+	},{
+		id:5,
+		title: '扫一扫',
+		file: '',
+		subTitle: ''
+	}]
+} as MenuList

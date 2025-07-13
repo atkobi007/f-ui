@@ -1,0 +1,13 @@
+<template>
+	<view>
+		History
+	</view>
+</template>
+
+<script setup>
+		
+</script>
+
+<style>
+		
+</style>
