@@ -6,15 +6,11 @@ export type ListSubItem{
 	url: string
 	empty:number
 }
-export type ListItem = {
+export type ListItem {
     title : string
 	detail: string
 	subItems:Array<ListSubItem>
 };
-
-// type Request = {
-// 	queryList: (data: UTSJSONObject) => Promise<UTSJSONObject>
-// }
 
 export function requestList(data: UTSJSONObject): Promise<UTSJSONObject> {
 	const listCount = 24;
